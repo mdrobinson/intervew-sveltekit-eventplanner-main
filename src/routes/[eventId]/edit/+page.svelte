@@ -28,8 +28,6 @@
 		use:enhance={({ formData }) => {
 			isSubmitting = true;
 
-			formData.set('eventId', eventId.toString());
-
 			return async ({ update }) => {
 				await update();
 				isSubmitting = false;
@@ -38,7 +36,7 @@
 	>
 		<!-- form for creating new event -->
 		<label for="eventId">Event ID</label>
-		<input type="number" id="eventId" name="eventId" required value={eventId} disabled />
+		<input type="hidden" id="eventId" name="eventId" value={eventId} />
 
 		<label for="title">Title</label>
 		<input type="text" id="title" name="title" required bind:value={title} />
