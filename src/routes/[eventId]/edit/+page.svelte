@@ -18,12 +18,11 @@
 	let date = $state<string>('');
 </script>
 
-<h1>Edit Event #{eventId}</h1>
-
 {#await streamed.eventById}
 	<p>Loading event #{eventId}...</p>
 {:then}
 	<form
+		class="max-w-lg mx-auto p-6 bg-white rounded-2xl shadow-md"
 		method="POST"
 		use:enhance={({ formData }) => {
 			isSubmitting = true;
@@ -34,28 +33,50 @@
 			};
 		}}
 	>
+		<h1 class="text-2xl font-semibold mb-4">Edit Event #{eventId}</h1>
 		<!-- form for creating new event -->
-		<label for="eventId">Event ID</label>
+		<label for="eventId" hidden>Event ID</label>
 		<input type="hidden" id="eventId" name="eventId" value={eventId} />
 
-		<label for="title">Title</label>
-		<input type="text" id="title" name="title" required bind:value={title} />
+		<label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+		<input
+			type="text"
+			id="title"
+			name="title"
+			required
+			bind:value={title}
+			class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4"
+		/>
 
+		<label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label
+		>
 		<textarea
 			id="description"
 			name="description"
 			rows="4"
 			cols="50"
-			placeholder="Description"
 			bind:value={description}
+			class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4"
 		></textarea>
 
-		<label for="date">Date</label>
-		<input type="datetime-local" id="date" name="date" required bind:value={date} />
+		<label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+		<input
+			type="datetime-local"
+			id="date"
+			name="date"
+			required
+			bind:value={date}
+			class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4"
+		/>
 		{#if isSubmitting}
 			<p>Submitting event...</p>
 		{:else}
-			<button type="submit" disabled={isSubmitting}>Save Event</button>
+			<button
+				type="submit"
+				disabled={isSubmitting}
+				class="w-full bg-blue-600 text-white font-semibold p-3 rounded-lg hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
+				>Save Event</button
+			>
 		{/if}
 	</form>
 {:catch error}
