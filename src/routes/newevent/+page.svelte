@@ -2,6 +2,8 @@
 	import { enhance } from '$app/forms';
 
 	let isSubmitting = $state(false);
+
+	let errorMessage = $state(null);
 </script>
 
 <form
@@ -9,8 +11,12 @@
 	use:enhance={() => {
 		isSubmitting = true;
 
-		return async ({ update }) => {
-			await update();
+		return async ({ update, result }) => {
+			if (result.type === 'error') {
+				errorMessage = result.error.message;
+			} else {
+				await update();
+			}
 			isSubmitting = false;
 		};
 	}}
@@ -26,5 +32,9 @@
 		<p>Submitting event...</p>
 	{:else}
 		<button type="submit" disabled={isSubmitting}>Create Event</button>
+	{/if}
+
+	{#if errorMessage}
+		<p>Error: {errorMessage}</p>
 	{/if}
 </form>
